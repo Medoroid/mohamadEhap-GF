@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>🎉 مفاجأة عيد ميلاد</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:"Cairo",sans-serif;
+}
+
+body{
+min-height:100vh;
+background:linear-gradient(135deg,#ff9ecb,#ffd6ec,#fff0f6);
+display:flex;
+justify-content:center;
+align-items:flex-start;
+overflow-x:hidden;
+}
+
+.container{
+max-width:420px;
+width:100%;
+padding:25px;
+}
+
+/* title */
+
+.title{
+text-align:center;
+font-size:30px;
+font-weight:800;
+color:#ff2e7a;
+margin-top:30px;
+animation:fadeDown 1s;
+}
+
+/* card */
+
+.card{
+background:rgba(255,255,255,.55);
+backdrop-filter:blur(18px);
+padding:28px;
+border-radius:22px;
+box-shadow:0 15px 40px rgba(0,0,0,.15);
+margin-top:35px;
+animation:fadeUp .8s;
+}
+
+.card input{
+width:100%;
+padding:13px;
+border:none;
+border-radius:12px;
+margin-top:12px;
+font-size:14px;
+background:white;
+outline:none;
+box-shadow:0 4px 10px rgba(0,0,0,.05);
+}
+
+.btn{
+margin-top:18px;
+width:100%;
+padding:13px;
+border:none;
+border-radius:12px;
+background:linear-gradient(45deg,#ff2e7a,#ff7eb3);
+color:white;
+font-size:16px;
+font-weight:700;
+cursor:pointer;
+transition:.3s;
+}
+
+.btn:hover{
+transform:scale(1.05);
+box-shadow:0 8px 20px rgba(255,46,122,.4);
+}
+
+/* error */
+
+.error{
+color:red;
+font-size:13px;
+margin-top:10px;
+display:none;
+text-align:center;
+}
+
+/* welcome */
+
+.welcome{
+display:none;
+text-align:center;
+margin-top:25px;
+animation:fadeUp 1s;
+}
+
+.hero{
+width:100%;
+border-radius:18px;
+box-shadow:0 15px 30px rgba(0,0,0,.2);
+}
+
+/* progress */
+
+.progress{
+width:100%;
+height:10px;
+background:#eee;
+border-radius:50px;
+overflow:hidden;
+margin-top:20px;
+}
+
+.bar{
+height:100%;
+width:0%;
+background:linear-gradient(90deg,#ff2e7a,#ff9ecb);
+transition:.15s;
+}
+
+/* gallery */
+
+.gallery{
+display:none;
+margin-top:30px;
+}
+
+.photo{
+background:rgba(255,255,255,.7);
+backdrop-filter:blur(15px);
+border-radius:18px;
+margin-bottom:20px;
+padding:12px;
+box-shadow:0 12px 30px rgba(0,0,0,.1);
+animation:fadeUp .8s;
+}
+
+.photo img{
+width:100%;
+border-radius:12px;
+}
+
+.photo h3{
+margin-top:10px;
+color:#ff2e7a;
+font-weight:700;
+}
+
+.photo p{
+font-size:14px;
+color:#444;
+}
+
+/* animations */
+
+@keyframes fadeUp{
+from{opacity:0;transform:translateY(40px)}
+to{opacity:1;transform:translateY(0)}
+}
+
+@keyframes fadeDown{
+from{opacity:0;transform:translateY(-40px)}
+to{opacity:1;transform:translateY(0)}
+}
+
+/* hearts */
+
+.heart{
+position:fixed;
+bottom:-50px;
+animation:float 7s linear infinite;
+opacity:.7;
+}
+
+@keyframes float{
+0%{
+transform:translateY(0) rotate(0);
+}
+100%{
+transform:translateY(-120vh) rotate(360deg);
+}
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1 class="title">🎉 مفاجأة عيد ميلاد 🎉</h1>
+
+<div class="card" id="login">
+
+<input id="name" placeholder="اكتب الاسم">
+
+<input id="Password" type="Password">
+
+<button class="btn" onclick="login()">دخول</button>
+
+<div class="error" id="error">
+الاسم أو التاريخ غير صحيح
+</div>
+
+</div>
+
+<div class="welcome" id="welcome">
+
+<img class="hero" src="https://images.unsplash.com/photo-1464349095431-e9a21285b5f3">
+
+<h2 style="margin-top:12px;color:#ff2e7a">
+كل سنة وانتي طيبة ❤️
+</h2>
+
+<div class="progress">
+<div class="bar" id="bar"></div>
+</div>
+
+</div>
+
+<div class="gallery" id="gallery"></div>
+
+</div>
+
+<audio id="music" loop>
+<source src="./FDownload.app-1558934188547192-(320kbps).mp3">
+</audio>
+
+<script>
+
+const correctName="Ba7bak"
+const correctPassword="2002-07-17"
+
+const photos=[
+
+{
+img:"/img/img-1.jpeg",
+text:"كل سنة وانتي أجمل حاجة حصلت في حياتي ❤️"
+},
+{
+img:"/img/img-2.jpeg",
+text:"كل سنة وانتي أجمل حاجة حصلت في حياتي ❤️"
+},
+
+{
+img:"/img/img-3.jpeg",
+text:"النهارده مش يوم عادي خالص ده اليوم اللي الدنيا بقت أحلى فيه عشان  اتولدت 🎂✨"
+},
+{
+img:"./img/img-4.jpeg",
+text:"كل سنة وانتي أقرب حد لقلبي… وكل سنة وانتي السبب في إني أبقى مبسوط من غير سبب 🤍"
+},
+{
+img:"./img/img-5.jpeg",
+text:"نفسي أكون جنبك في كل لحظة، وأفضل دايمًا الشخص اللي يخليكي تضحكي حتى لو الدنيا زعلتك 🥺💗"
+},
+{
+img:"./img/img-6.jpeg",
+text:"كل مرة ببصلك بحس إني كسبت الدنيا كلها… وبقول لنفسي إزاي كنت عايش من غيرك قبل كده؟"
+},
+{
+img:"./img/img-7.jpeg",
+text:"وكل سنة وانتي السبب في إني أبقى مبسوط من غير سبب ❤️"
+},
+{
+img:"./img/img-8.jpeg",
+text:"النهارده مش يوم عادي خالص… ده اليوم اللي الدنيا بقت أحلى فيه عشان منه اتولدت 🎂✨"
+},
+{
+img:"./img/img-9.jpeg",
+text:"بحبك جدًا… وكل سنة وانتي ليا 💋"
+},
+
+{
+img:"./img/img-10.jpeg",
+text:"بحبك يا منه حب ملوش آخر… "
+}
+
+]
+
+function login(){
+
+let name=document.getElementById("name").value
+let Password=document.getElementById("Password").value
+
+let error=document.getElementById("error")
+
+if(name!==correctName || Password!==correctPassword){
+
+error.style.display="block"
+return
+
+}
+
+document.getElementById("login").style.display="none"
+document.getElementById("welcome").style.display="block"
+
+document.getElementById("music").play()
+
+startLoading()
+
+}
+
+function startLoading(){
+
+let bar=document.getElementById("bar")
+
+let width=0
+
+let interval=setInterval(()=>{
+
+width++
+
+bar.style.width=width+"%"
+
+if(width>=100){
+
+clearInterval(interval)
+showGallery()
+
+}
+
+},40)
+
+}
+
+function showGallery(){
+
+let gallery=document.getElementById("gallery")
+const song = new Audio('Albumaty.Com_Group_Happy_Birth_Day.mp3')
+gallery.style.display="block"
+
+photos.forEach(p=>{
+
+gallery.innerHTML+=`
+
+<div class="photo">
+
+<h3>كل سنة طيبة 🎉</h3>
+
+<img src="${p.img}">
+
+<h4>${p.text}</h4>
+
+</div>
+
+`
+
+})
+song.play()
+}
+
+/* hearts animation */
+
+function hearts(){
+
+let heart=document.createElement("div")
+
+heart.className="heart"
+
+heart.innerHTML="💖"
+
+heart.style.left=Math.random()*100+"vw"
+
+heart.style.fontSize=(Math.random()*20+10)+"px"
+
+document.body.appendChild(heart)
+
+setTimeout(()=>heart.remove(),7000)
+
+}
+
+setInterval(hearts,400)
+
+</script>
+
+</body>
+</html>
